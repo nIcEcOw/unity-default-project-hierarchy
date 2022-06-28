@@ -1,0 +1,12 @@
+/*
+ * Creation Date: #DATETIME#
+ * Author: #DEVELOPER#
+ * Description: #PROJECTNAME#
+ */
+
+using UnityEngine;
+
+namespace #ROOTNAMESPACE# {
+  public class #SCRIPTNAME# : MonoBehaviour {
+  }
+}
