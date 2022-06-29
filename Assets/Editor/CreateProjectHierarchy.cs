@@ -9,10 +9,10 @@ public class CreateProjectHierarchy : EditorWindow {
   
   private static string projectName = "PROJECT_NAME";
 
-  [ MenuItem("Assets/Create Default Folder Hierarchy") ]
+  [ MenuItem("Assets/Setup Folder Hierarchy") ]
   private static void SetUpFolderHierarchy() {
     CreateProjectHierarchy window = ScriptableObject.CreateInstance<CreateProjectHierarchy>();
-    window.position = new Rect(Screen.width / 2, Screen.height / 2, 400, 110);
+    window.position = new Rect(Screen.width / 2, Screen.height / 2, 400, 100);
     window.ShowPopup();
   }
 
@@ -29,43 +29,53 @@ public class CreateProjectHierarchy : EditorWindow {
       "Doc",
       "UI"
     };
-
     // Creating top level folders
     foreach(string folder in folders)
       if(!Directory.Exists("Assets/" + projectName + "/" + folder))
         Directory.CreateDirectory("Assets/" + projectName + "/" + folder);
+    
+    // List of Code subfolders
+    List<string> codeSubFolders = new List<string> {"Script", "Shader"};
+    // Creating Code subfolders
+    foreach(string folder in codeSubFolders)
+      if(!Directory.Exists("Assets/" + projectName + "/Code/" + folder))
+        Directory.CreateDirectory("Assets/" + projectName + "/Code/" + folder);
 
     // List of Design subfolders
     List<string> designSubFolders = new List<string> {"Scene", "Prefab"};
-
     // Creating Design subfolders
     foreach(string folder in designSubFolders)
       if(!Directory.Exists("Assets/" + projectName + "/Design/" + folder))
         Directory.CreateDirectory("Assets/" + projectName + "/Design/" + folder);
-
+    
     // List of UI subfolders
     List<string> uiSubFolders = new List<string> {"Asset", "Font", "Sprite"};
-
     // Creating UI subfolders
     foreach(string subFolder in uiSubFolders)
       if(!Directory.Exists("Assets/" + projectName + "/UI/" + subFolder))
         Directory.CreateDirectory("Assets/" + projectName + "/UI/" + subFolder);
-
+    
     // Refresh AssetDatabase
     AssetDatabase.Refresh();
   }
 
   // Draw GUI
   private void OnGUI() {
-    EditorGUILayout.LabelField("Insert the Project name used as the root folder");
+    // Creating TextField to input Project Name
+    EditorGUILayout.LabelField("Please enter Project Name to be used as Root folder");
     projectName = EditorGUILayout.TextField("Project Name: ", projectName);
-    this.Repaint();
-    GUILayout.Space(10);
+    
+    // Generate Button to create project hierarchy
+    GUILayout.Space(5);
+    if(GUILayout.Button("Generate")) {
+      CreateAllFolders();
+      this.Close();
+    }
+    
+    // Close Button to close the dialog
+    GUILayout.Space(5);
     if(GUILayout.Button("Close"))
       this.Close();
-    GUILayout.Space(5);
-    if(!GUILayout.Button("Generate")) return;
-    CreateAllFolders();
-    this.Close();
+    this.Repaint();
   }
 }
