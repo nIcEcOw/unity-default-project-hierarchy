@@ -1,7 +1,7 @@
 /*
  * Creation Date: #DATETIME#
  * Author: #DEVELOPER#
- * Description: #PROJECTNAME#
+ * Description: 
  */
 
 using UnityEngine;
